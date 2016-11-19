@@ -2,7 +2,7 @@
 
 WK_DIR="/tmp/data"
 VM_DIR="${WK_DIR}/oops/`date +%Y%m%d-%T`"
-VMFILE="${VM_DIR}/vmcore.tar.gz"
+DUMP_LOG="${VM_DIR}/oops.log"
 
 errout() {
 	logger "kdump err: "$1
@@ -13,8 +13,9 @@ echo "kdump start..."
 mkdir -p "$WK_DIR" || errout "work dir ${WK_DIR} can't created"
 mount /dev/sda4 "$WK_DIR" || errout "sda4 mount $WK_DIR failed"
 mkdir -p "$VM_DIR" || errout "work dir ${WK_DIR} can't accessed"
-tar czvf "$VMFILE" /proc/vmcore || errout "collect vmcore failed"
+# tar czvf "$DUMP_LOG" /proc/vmcore || errout "collect vmcore failed"
+vmcore-dmesg /proc/vmcore > $DUMP_LOG || errout "collect vmcore failed"
 umount "$WK_DIR"
-echo "kdump finished...[$VMFILE] && auto-reboot"
+echo "kdump finished...[$DUMP_LOG] && auto-reboot"
 
 reboot
