@@ -1,0 +1,15 @@
+#!/bin/ash
+
+errout() {
+	logger "kdump err: "$1
+	exit 0
+}
+
+echo "kdump start..."
+mkdir -p /tmp/data || errout "tmp can't accessed"
+mount /dev/sda4 /tmp/data || errout "sda4 mount failed"
+tar czvf /tmp/data/vm.tar.gz /proc/vmcore || errout "collect vmcore failed"
+echo "kdump finished..."
+
+#reboot
+exit 0
