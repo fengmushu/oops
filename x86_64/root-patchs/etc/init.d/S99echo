@@ -2,4 +2,8 @@
 
 ifconfig lo up
 ifconfig eth0 192.168.1.110
+
+#dump system info to console
 ps w
+ifconfig
+ip ro

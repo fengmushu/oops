@@ -15,7 +15,10 @@ mount /dev/sda4 "$WK_DIR" || errout "sda4 mount $WK_DIR failed"
 mkdir -p "$VM_DIR" || errout "work dir ${WK_DIR} can't accessed"
 # tar czvf "$DUMP_LOG" /proc/vmcore || errout "collect vmcore failed"
 vmcore-dmesg /proc/vmcore > $DUMP_LOG || errout "collect vmcore failed"
-umount "$WK_DIR"
-echo "kdump finished...[$DUMP_LOG] && auto-reboot"
 
-reboot
+echo "kdump finished...[$DUMP_LOG] && auto-reboot"
+[ -f "${WK_DIR}/wait" ] || {
+	umount "$WK_DIR"
+	reboot
+}
+echo "kdump wait user operations..."
