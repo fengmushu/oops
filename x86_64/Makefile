@@ -3,7 +3,7 @@
 lastword = $(word $(words $(1)),$(1))
 makedir := $(dir $(call lastword,$(MAKEFILE_LIST)))
 
-MAKEARGS := -C /home/roy/oops/bdroot/buildroot-2016.08.1
+MAKEARGS := -C ../buildroot-2016.08.1
 MAKEARGS += O=$(if $(patsubst /%,,$(makedir)),$(CURDIR)/)$(patsubst %/,%,$(makedir))
 
 MAKEFLAGS += --no-print-directory
